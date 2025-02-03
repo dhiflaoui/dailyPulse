@@ -20,7 +20,6 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: "absolute",
           },
           default: {},
@@ -42,6 +41,15 @@ export default function TabLayout() {
           title: "Memories",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="memories" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="adhkar"
+        options={{
+          title: "Adhkar",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="book.fill" color={color} />
           ),
         }}
       />

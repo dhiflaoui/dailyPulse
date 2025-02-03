@@ -22,6 +22,7 @@ const MAPPING = {
   gearshape: "settings", // For Settings
   "square.list": "list", // Default fallback
   memories: "memory", // Memory chip icon
+  "book.fill": "book",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],
