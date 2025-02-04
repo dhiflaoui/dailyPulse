@@ -8,21 +8,20 @@ import {
   TextStyle,
   Dimensions,
   ScrollView,
+  I18nManager,
+  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { CardProps } from "../types/adhkar";
+import { adhkarCards } from "../data/adhkarCards";
+// Force RTL layout for Arabic text
+I18nManager.allowRTL(true);
+I18nManager.forceRTL(true);
 
 const { width, height } = Dimensions.get("window");
 const CARD_MARGIN = 10;
-
-interface CardProps {
-  title: string;
-  colors: readonly [string, string];
-  name: string;
-  onPress?: () => void;
-  isSmall?: boolean;
-}
 
 interface Styles {
   container: ViewStyle;
@@ -44,26 +43,21 @@ interface Styles {
   contentContainer: ViewStyle;
 }
 
-// Define the navigation param list type
 type RootStackParamList = {
-  AdhkarCount: {
+  AdhkarCounter: {
     title: string;
-    colors: readonly [string, string];
-    name: string;
   };
-  // ... other screens
 };
 
-type Props = {
-  navigation: NativeStackNavigationProp<RootStackParamList, "AdhkarCount">;
-};
+type Props = {};
 
-const AdhkarDashboard: React.FC<Props> = ({ navigation }) => {
+const AdhkarDashboard: React.FC<Props> = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const renderCard = ({
     title,
     colors,
-    name,
-    onPress,
+
     isSmall = false,
   }: CardProps): JSX.Element => (
     <TouchableOpacity
@@ -71,9 +65,7 @@ const AdhkarDashboard: React.FC<Props> = ({ navigation }) => {
         styles.cardContainer,
         isSmall ? styles.smallCardContainer : styles.largeCardContainer,
       ]}
-      onPress={() =>
-        navigation.navigate("AdhkarCount", { title, colors, name })
-      }
+      onPress={() => navigation.navigate("AdhkarCounter", { title })}
       activeOpacity={0.9}
     >
       <LinearGradient
@@ -97,103 +89,15 @@ const AdhkarDashboard: React.FC<Props> = ({ navigation }) => {
     );
   };
 
-  const cards: CardProps[] = [
-    {
-      title: " ‫ﺳﺒﺤﺎن‬‫ اﻟﻠّﻪ‬ ‫وﺑﺤﻤﺪه‬ ‫ﺳﺒﺤﺎن‬ ‫اﻟﻠّﻪ‬ ‫اﻟﻌﻈﻴﻢ‬",
-      colors: ["#4CAF50", "#81C784"], // Green
-      name: "Subhan Allah Wabihamdihi Subhan Allah Alazim",
-      isSmall: true,
-    },
-    {
-      title: "‫اﻟﻠﻬﻢ ‬‫ﺻﻞ‬ ‫وﺳﻠﻢ‬ ‫ﻋﲆ‬ ‫ﻧﺒﻴﻨﺎ‬ ‫ﻣﺤﻤﺪ‬‬",
-      colors: ["#2196F3", "#64B5F6"], // Blue
-      name: "Allahumma Salli Ala Nabiyyina Muhammad",
-      isSmall: true,
-    },
-    {
-      title: "‫ﻻﺣﻮل‬‫ وﻻ‬ ‫ﻗﻮة‬ ‫اﻻ‬ ‫ﺑﺎﻟﻠﻪ‬ ",
-      colors: ["#9C27B0", "#BA68C8"], // Purple
-      name: "La Hawla Wala Quwwata Illa Billah",
-      isSmall: true,
-    },
-    {
-      title:
-        "‫اﺳﺘﻐﻔﺮ ‬‫اﻟﻠﻪ‬ ‫اﻟﻌﻈﻴﻢ‬ ‫اﻟﺬي‬ ‫ﻻاﻟﻪ‬ ‫اﻻ‬ ‫ﻫﻮ‬ ‫اﻟﺤﻲ‬ ‫اﻟﻘﻴﻮم‬ ‫وأﺗﻮب‬ ‫إﻟﻴﻪ‬ ",
-      colors: ["#E91E63", "#F06292"], // Pink
-      name: "Astaghfirullah Al-Azim",
-      isSmall: true,
-    },
-    {
-      title: "‫ﺳﺒﺤﺎن‬‫ اﻟﻠﻪ‬ ",
-      colors: ["#FF9800", "#FFB74D"], // Orange
-      name: "Subhan Allah",
-      isSmall: true,
-    },
-    {
-      title: "‫ﻻ‬‫ اﻟﻪ‬ ‫اﻻ‬ ‫اﻟﻠﻪ‬",
-      colors: ["#009688", "#4DB6AC"], // Teal
-      name: "Allahumma Salli Ala Nabiyyina Muhammad",
-      isSmall: true,
-    },
-    {
-      title: "‫اﻟﻠﻪ‬‫ اﻛﱪ‬ ",
-      colors: ["#F44336", "#EF5350"], // Red
-      name: "La Hawla Wala Quwwata Illa Billah",
-      isSmall: true,
-    },
-    {
-      title: "‫اﻟﺤﻤﺪ‬‫ ﻟﻠﻪ‬ ",
-      colors: ["#673AB7", "#9575CD"], // Deep Purple
-      name: "Allahumma Salli Ala Nabiyyina Muhammad",
-      isSmall: true,
-    },
-    {
-      title: "‫ﻻ‬‫اﻟﻪ‬ ‫اﻻ‬ ‫اﻟﻠﻪ‬ ‫وﺣﺪه‬ ‫ﻻﴍﻳﻚ‬ ‫ﻟﻪ‬ ",
-      colors: ["#3F51B5", "#7986CB"], // Indigo
-      name: "La Hawla Wala Quwwata Illa Billah",
-      isSmall: true,
-    },
-    {
-      title: "‫اﻟﻠﻬﻢ ‬‫اﻧ‬ﻲ ‫اﺳﺘﻐﻔﺮك‬ ‫واﺗﻮب‬ ‫اﻟﻴﻚ‬",
-      colors: ["#00BCD4", "#4DD0E1"], // Cyan
-      name: "Allahumma Salli Ala Nabiyyina Muhammad",
-      isSmall: true,
-    },
-    {
-      title: "‫اﻟﻠﻬﻢ‬‫ اﻧﻚ‬ ‫ﻋﻔﻮ‬ ‫ﺗﺤﺐ‬ ‫اﻟﻌﻔﻮ‬ ‫ﻓﺎﻋﻒ‬ ‫ﻋﻨﻲ‬ ",
-      colors: ["#795548", "#A1887F"], // Brown
-      name: "Allahumma Salli Ala Nabiyyina Muhammad",
-      isSmall: true,
-    },
-    {
-      title: "‫اﻟﻠﻬﻢ‬‫اﻲﻧ‬ ‫ﻇﻠﻤﺖ‬ ‫ﻧﻔﴘ‬ ",
-      colors: ["#607D8B", "#90A4AE"], // Blue Grey
-      name: "Allahumma Salli Ala Nabiyyina Muhammad",
-      isSmall: true,
-    },
-    {
-      title: "‫ﺣﺴﺒﻲ‬‫اﻟﻠﻪ‬ ‫وﻧﻌﻢ‬ ‫اﻟﻮﻛﻴﻞ‬ ",
-      colors: ["#8BC34A", "#AED581"], // Light Green
-      name: "Allahumma Salli Ala Nabiyyina Muhammad",
-      isSmall: true,
-    },
-    {
-      title: "‫ﻻ‬‫اﻟﻪ‬ ‫اﻻ‬ ‫اﻧﺖ‬ ‫ﺳﺒﺤﺎﻧﻚ‬ ",
-      colors: ["#FFC107", "#FFD54F"], // Amber
-      name: "Allahumma Salli Ala Nabiyyina Muhammad",
-      isSmall: true,
-    },
-  ];
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.contentContainer}>
-        {cards.slice(0, 2).map((card, index) => (
+        {adhkarCards.slice(0, 2).map((card, index) => (
           <View key={index} style={styles.row}>
             {renderCard(card)}
           </View>
         ))}
-        {chunkArray(cards.slice(2), 2).map((pair, rowIndex) => (
+        {chunkArray(adhkarCards.slice(2), 2).map((pair, rowIndex) => (
           <View key={rowIndex} style={styles.rowMultiple}>
             {pair.map((card, index) => (
               <View key={`${rowIndex}-${index}`} style={styles.column}>
@@ -266,12 +170,19 @@ const styles = StyleSheet.create<Styles>({
     fontWeight: "bold",
     textAlign: "center",
     marginTop: 8,
+    writingDirection: "rtl",
+    fontFamily: Platform.select({
+      ios: "Al Nile",
+      android: "noto-naskh-arabic",
+    }),
   },
   largeCardText: {
     fontSize: width * 0.05,
+    lineHeight: width * 0.07,
   },
   smallCardText: {
     fontSize: width * 0.04,
+    lineHeight: width * 0.06,
   },
   icon: {
     marginBottom: 8,

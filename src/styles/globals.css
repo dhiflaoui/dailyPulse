@@ -1,0 +1,11 @@
+/* Add Arabic font */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap");
+
+/* Add Arabic text class */
+.arabic-text {
+  font-family: "Noto Naskh Arabic", serif;
+  direction: rtl;
+  text-align: right;
+  line-height: 1.8;
+  font-size: 1.25rem;
+}
