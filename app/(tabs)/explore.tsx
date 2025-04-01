@@ -16,7 +16,7 @@ export default function TabTwoScreen() {
       }
     >
       <Memories />
-      <Counter />
+      {/* <Counter /> */}
     </ParallaxScrollView>
   );
 }
